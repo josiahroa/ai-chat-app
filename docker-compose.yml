@@ -1,0 +1,13 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: 3.13
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL=llama3.2
+    volumes:
+      - .env:/app/.env

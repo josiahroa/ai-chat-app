@@ -1,10 +1,18 @@
 from config.config import Config
+from typing import Union
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
 
-def main():
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     config = Config()
-    print("Hello from server!")
-    print(config.get_config())
+    app.state.model = config.get_model()
+    yield
 
+app = FastAPI(lifespan=lifespan)
 
-if __name__ == "__main__":
-    main()
+@app.get("/health")
+def health_check():
+    return {"message": "Healthy", "model": app.state.model}
+
