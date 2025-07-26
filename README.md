@@ -2,6 +2,12 @@
 
 An AI chat application built using React, Python, Langchain, and Ollama.
 
+## Prerequisites
+
+1. Docker
+
+2. Ollama
+
 ## Getting Started
 
 1. Configure environment variables for server.
