@@ -1,6 +1,6 @@
 # ai-chat-app
 
-An very simple local AI chat application built using React, Python, Langchain, and Ollama.
+A very simple local AI chat application built using React, Python, Langchain, and Ollama.
 
 ## Prerequisites
 
