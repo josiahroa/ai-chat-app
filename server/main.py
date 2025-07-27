@@ -26,5 +26,6 @@ async def chat(websocket: WebSocket):
         async for chunk in chat_model.astream(prompt):
             chunks.append(chunk)
             await websocket.send_text(chunk.content)
+        await websocket.send_text("[DONE]")
 
 
