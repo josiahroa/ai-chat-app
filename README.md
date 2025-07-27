@@ -1,25 +1,18 @@
 # ai-chat-app
 
-An AI chat application built using React, Python, Langchain, and Ollama.
+An very simple local AI chat application built using React, Python, Langchain, and Ollama.
 
 ## Prerequisites
 
-1. Docker
+1. [Docker](https://docs.docker.com/get-started/)
 
-2. Ollama
+2. [Ollama](https://ollama.com/)
 
-## Getting Started
+### Development Workflow
 
-1. Configure environment variables for server.
+1. [uv](https://docs.astral.sh/uv/getting-started/)
 
-   a. Init a .env file from .env.example
-
-   ```
-   cd ./server
-   cp .env.example .env
-   ```
-
-   b. Fill out required environment variables in `./server/.env`
+2. [pnpm](https://pnpm.io/installation)
 
 ### For Mac
 
@@ -41,4 +34,59 @@ An AI chat application built using React, Python, Langchain, and Ollama.
    ollama run <desired_model>
    ```
 
-   b. Update the MODEL env in `./server/.env`
+   b. If running locally, update the MODEL env in `./server/.env`.
+
+   c. If running in Docker, update the MODEL for the server environment in `./docker-compose.yml`
+
+## Getting Started
+
+Make sure to read the Prerequisites before getting started!
+
+### Docker Workflow
+
+1. Build and run the application
+
+   ```
+   docker compose build
+   docker compose up
+   ```
+
+2. The app is now available at `http://localhost:5173/`
+
+### Development Workflow
+
+1. Set server environment variables
+
+   ```
+   cd server
+   cp .env.example .env
+   ```
+
+   Fill out the required environment variables
+
+2. Install server dependencies
+
+   ```
+   uv sync --locked
+   ```
+
+3. Run the server
+
+   ```
+   uv run fastapi run main.py
+   ```
+
+4. Install client dependencies
+
+   ```
+   cd ../client
+   pnpm install
+   ```
+
+5. Run the client
+
+   ```
+   pnpm run dev
+   ```
+
+6. The app is now available at `http://localhost:5173/`

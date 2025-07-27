@@ -9,5 +9,15 @@ services:
       - "8000:8000"
     environment:
       - MODEL=llama3.2
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
     volumes:
-      - .env:/app/.env
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server

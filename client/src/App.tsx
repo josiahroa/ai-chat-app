@@ -49,7 +49,9 @@ function App() {
   };
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8000/chat");
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:8000/chat";
+    console.log("Connecting to WebSocket:", wsUrl);
+    ws.current = new WebSocket(wsUrl);
     ws.current.onmessage = (event) => {
       const data = event.data;
 
@@ -85,8 +87,18 @@ function App() {
         }
       });
     };
+
     ws.current.onerror = (err) => {
       console.error("WebSocket error:", err);
+      isStreamingRef.current = false;
+    };
+
+    ws.current.onopen = () => {
+      console.log("WebSocket connected successfully");
+    };
+
+    ws.current.onclose = (event) => {
+      console.log("WebSocket closed:", event.code, event.reason);
       isStreamingRef.current = false;
     };
 
