@@ -2,6 +2,14 @@
 
 A very simple local AI chat application built using React, Python, Langchain, and Ollama.
 
+- Supports prompting a model and receiving a response in real time as the model generates tokens.
+
+- Does not support chat context memory
+
+- Does not support 'Double-Texting'
+
+- Does not properly format responses in the UI
+
 ## Prerequisites
 
 1. [Docker](https://docs.docker.com/get-started/)
