@@ -1,20 +1,7 @@
 from config.config import Config
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, WebSocket
 from langchain_ollama.chat_models import ChatOllama
-
-class ChatRequest(BaseModel):
-    message: str
-
-class LLMInterface:
-    def __init__(self, model: str):
-        self.model = model
-    
-    def chat(self, request: ChatRequest):
-        chat_model = ChatOllama(model=self.model)
-        response = chat_model.invoke(request.message)
-        return response.content
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,9 +15,16 @@ app = FastAPI(lifespan=lifespan)
 def health_check():
     return {"message": "Healthy"}
 
-@app.post("/chat")
-def chat(request: ChatRequest):
-    llm_interface = LLMInterface(app.state.model)
-    return {"message": llm_interface.chat(request)}
+@app.websocket("/chat")
+async def chat(websocket: WebSocket):
+    chat_model = ChatOllama(model=app.state.model)
+
+    await websocket.accept()
+    while True:
+        prompt = await websocket.receive_text()
+        chunks = []
+        async for chunk in chat_model.astream(prompt):
+            chunks.append(chunk)
+            await websocket.send_text(chunk.content)
 
 
